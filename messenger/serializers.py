@@ -15,7 +15,20 @@ class MessageSerializer(serializers.ModelSerializer):
 
     product = serializers.SlugRelatedField(
         read_only=False, queryset=Product.objects.all(), slug_field="id")
-
+    seller_name = serializers.SerializerMethodField('get_seller_name') 
+    buyer_name = serializers.SerializerMethodField('get_buyer_name')
     class Meta:
         model = Message
         exclude = ('id',)
+    
+    def get_seller_name(self,Message):
+        first_name = Message.seller.first_name
+        last_name = Message.seller.last_name
+        seller_name = f'{first_name} {last_name}'
+        return seller_name
+
+    def get_buyer_name(self,Message):
+        first_name = Message.buyer.first_name
+        last_name = Message.buyer.last_name
+        buyer_name = f'{first_name} {last_name}'
+        return buyer_name

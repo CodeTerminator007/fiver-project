@@ -44,7 +44,6 @@ class CartItemViewSet(ModelViewSet):
 class MyProductCartItemsSet(ModelViewSet):
     permission_classes = [IsAuthenticated, ]
     serializer_class = CartitemSerializer
-
     def get_queryset(self):
         queryset = CartItem.objects.filter(product__added_by=self.request.user)
         return queryset

@@ -18,17 +18,24 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ( "added_at",)
+        fields = '__all__'
 
 class CartitemSerializer(serializers.ModelSerializer):
-
-                
     product_name = serializers.SerializerMethodField('get_productName')
     product_price = serializers.SerializerMethodField('get_productPrice') 
     product_image = serializers.SerializerMethodField('get_productImage')
     class Meta:
         model = CartItem
         fields = '__all__'
+
+    def run_validation(self, data):
+        product = data.get('product')
+        user = data.get('user')
+        if CartItem.objects.filter(product=product,user=user).exists() ==True:
+            
+            raise serializers.ValidationError({'Validation Error':'Already added in your Cart'})
+        return data
+
     def get_productName(self,CartItem):
         product_name = CartItem.product.name
         return product_name
@@ -43,4 +50,3 @@ class CartitemSerializer(serializers.ModelSerializer):
             validated_data["status"] = "Sold"
             return validated_data
         return validated_data
-
