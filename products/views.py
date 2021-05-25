@@ -3,7 +3,7 @@ from django.http import request
 from rest_framework import generics
 from rest_framework.fields import CurrentUserDefault
 from .models import Product , CartItem
-from .serializers import ProductSerializer , CartitemSerializer 
+from .serializers import ProductSerializer , CartitemSerializer ,CartitemupdateSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -41,6 +41,13 @@ class CartItemViewSet(ModelViewSet):
 
     def get_queryset(self):
         return CartItem.objects.filter(user_id=self.request.user)
+class CartItemupdateViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated, ]
+    serializer_class = CartitemupdateSerializer
+
+    def get_queryset(self):
+        return CartItem.objects.filter(user_id=self.request.user)
+    
 class MyProductCartItemsSet(ModelViewSet):
     permission_classes = [IsAuthenticated, ]
     serializer_class = CartitemSerializer

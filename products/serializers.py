@@ -35,6 +35,7 @@ class CartitemSerializer(serializers.ModelSerializer):
             
             raise serializers.ValidationError({'Validation Error':'Already added in your Cart'})
         return data
+        
 
     def get_productName(self,CartItem):
         product_name = CartItem.product.name
@@ -50,3 +51,27 @@ class CartitemSerializer(serializers.ModelSerializer):
             validated_data["status"] = "Sold"
             return validated_data
         return validated_data
+
+class CartitemupdateSerializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField('get_productName')
+    product_price = serializers.SerializerMethodField('get_productPrice') 
+    product_image = serializers.SerializerMethodField('get_productImage')
+    class Meta:
+        model = CartItem
+        fields = '__all__'
+
+    def get_productName(self,CartItem):
+        product_name = CartItem.product.name
+        return product_name
+    def get_productPrice(self,CartItem):
+        product_price = CartItem.product.price
+        return product_price 
+    def get_productImage(self,CartItem):
+        product_image = CartItem.product.photo1.url
+        return product_image               
+    def validate(self, validated_data):
+        if validated_data["seller_confirmation"] == True & validated_data["buyer_confirmation"] == True:
+            validated_data["status"] = "Sold"
+            return validated_data
+        return validated_data        
+
