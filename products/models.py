@@ -40,8 +40,8 @@ class CartItem(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,null=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     status = models.CharField(choices=CartItemStatus.choices(), max_length=20, default=CartItemStatus.PENDING)
-    seller_confirmation = models.BooleanField(default=False)
-    buyer_confirmation = models.BooleanField(default=False)
+    seller_confirmation = models.CharField(choices=CartItemStatus.choices(), max_length=20, default=CartItemStatus.PENDING)
+    buyer_confirmation = models.CharField(choices=CartItemStatus.choices(), max_length=20, default=CartItemStatus.PENDING)
 
     def make_sold(self):
         self.status = CartItemStatus.SOLD

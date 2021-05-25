@@ -63,27 +63,27 @@ class CartitemupdateSerializer(serializers.ModelSerializer):
         product_image = CartItem.product.photo1.url
         return product_image               
     def validate(self, validated_data):
-        if validated_data["seller_confirmation"] == True & validated_data["buyer_confirmation"] == True:
+        if validated_data["seller_confirmation"] == "Sold" and validated_data["buyer_confirmation"] == "Sold":
             validated_data["status"] = "Sold"
             return validated_data
-        # elif validated_data["seller_confirmation"] == "Sold" & validated_data["buyer_confirmation"] == "Cancelled":
-        #     validated_data["status"] = "Cancelled"            
-        #     return validated_data
-        # elif validated_data["seller_confirmation"] == "Cancelled" & validated_data["buyer_confirmation"] == "Sold":
-        #     validated_data["status"] = "Cancelled"            
-        #     return validated_data
-        # elif validated_data["seller_confirmation"] == "Cancelled" & validated_data["buyer_confirmation"] == "Cancelled":
-        #     validated_data["status"] = "Cancelled"            
-        #     return validated_data
-        # elif validated_data["seller_confirmation"] == "Pending" & validated_data["buyer_confirmation"] == "Cancelled":
-        #     validated_data["status"] = "Cancelled"            
-        #     return validated_data
-        # elif validated_data["seller_confirmation"] == "Cancelled" & validated_data["buyer_confirmation"] == "Pending":
-        #     validated_data["status"] = "Cancelled"            
-        #     return validated_data
-        # elif validated_data["seller_confirmation"] == "Pending" & validated_data["buyer_confirmation"] == "Pending":
-        #     validated_data["status"] = "Pending"            
-        #     return validated_data            
+        elif validated_data["seller_confirmation"] == "Sold" and validated_data["buyer_confirmation"] == "Cancelled":
+            validated_data["status"] = "Cancelled"            
+            return validated_data
+        elif validated_data["seller_confirmation"] == "Cancelled" and validated_data["buyer_confirmation"] == "Sold":
+            validated_data["status"] = "Cancelled"            
+            return validated_data
+        elif validated_data["seller_confirmation"] == "Cancelled" and validated_data["buyer_confirmation"] == "Cancelled":
+            validated_data["status"] = "Cancelled"            
+            return validated_data
+        elif validated_data["seller_confirmation"] == "Pending" and validated_data["buyer_confirmation"] == "Cancelled":
+            validated_data["status"] = "Cancelled"            
+            return validated_data
+        elif validated_data["seller_confirmation"] == "Cancelled" and validated_data["buyer_confirmation"] == "Pending":
+            validated_data["status"] = "Cancelled"            
+            return validated_data
+        elif validated_data["seller_confirmation"] == "Pending" and validated_data["buyer_confirmation"] == "Pending":
+            validated_data["status"] = "Pending"            
+            return validated_data            
 
         return validated_data        
 
